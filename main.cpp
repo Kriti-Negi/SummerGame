@@ -4,9 +4,9 @@
 int main(void)
 {
     Game g;
-    g.test = 1;
+    
     GLFWwindow* window;
-    g.printTest();
+
 
     /* Initialize the library */
     if (!glfwInit())
