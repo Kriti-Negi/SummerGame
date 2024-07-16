@@ -2,6 +2,7 @@
 
 #include "Collision.cpp"
 #include "DrawableObj.cpp"
+#include "WorldConstants.cpp"
 
 class Player : public DrawableObj  {
     private:
@@ -12,26 +13,35 @@ class Player : public DrawableObj  {
 
         DrawableObj ground; // there has to be a better way
 
+        int facing = 0; // starts facing left; 1 is facing right
+
         float currPos[3] = {0.0f, 0.0f, 0.0f}; // change to start pos
         float currVel[2] = {0.0f, 0.0f}; // first is x, second is y
-        float currAccel[2] = {-1.0f, -10.0f}; // first is x, second is y (default is friction, gravity)
+        float currAccel[2] = {0.0f, GRAVITY}; // first is x, second is y (default is friction, gravity)
         float timeBetweenFrames = 0.001;
         
         //animations (should we have an animation class?)
 
         std::string stand[4] = {
-            "", 
-            "",
-            "",
-            ""
+            "", // facing left 1
+            "", // facing left 2
+            "", // facing right 1
+            "" // facing right 2
         }; // default
 
         std::string move[4] = {
-            "", 
-            "",
-            "",
-            ""
+            "", // facing left 1
+            "", // facing left 2
+            "", // facing right 1
+            "" // facing right 2
         }; // run
+
+        std::string jump[4] = { // do we even want a jump animation
+            "", // facing left 1
+            "", // facing left 2
+            "", // facing right 1
+            "" // facing right 2
+        }; // jump
 
     public:
         Player(float posx, float posy, float posz, DrawableObj d) {
@@ -56,6 +66,7 @@ class Player : public DrawableObj  {
         void applyVelocity(float velX, float velY){
             currVel[0] = velX + currVel[0];
             currVel[1] = velY + currVel[1];
+            
         }
 
         void teleport(float pos[2]){
@@ -66,10 +77,15 @@ class Player : public DrawableObj  {
 
         void updateMovement(float timeElapsed){
             // updates speed, velocity by applying acceleration
-            currVel[0] = currVel[0] + currAccel[0] * timeElapsed;
+            if(currVel[0] > 0.0){
+                currVel[0] = currVel[0] + currAccel[0] * timeElapsed * (-1.0f) * FRICTION; 
+            }else{
+                currVel[0] = currVel[0] + currAccel[0] * timeElapsed * FRICTION; 
+            }
+            
             currVel[1] = currVel[1] + currAccel[1] * timeElapsed;
 
-            currPos[0] = currVel[0] * timeElapsed + currPos[0];
+            currPos[0] = currVel[0] * timeElapsed + currPos[0]; 
             currPos[1] = currVel[1] * timeElapsed + currPos[1];
         }
 
@@ -83,13 +99,15 @@ class Player : public DrawableObj  {
             }else if(action == 2){
                 // jump
                 applyVelocity(0.0f, 6.0);
-                applyAcceleration(0.0f, -10.0f);
+                applyAcceleration(0.0f, GRAVITY);
             }
         }
 
         void updateSprite(){
             DrawableObj::setNewPos2D(currPos[0], currPos[1]);
-            
+            if(currVel[0] == 0.0){
+
+            }
         }
 
         void nextFrame(){
@@ -102,6 +120,4 @@ class Player : public DrawableObj  {
             // check collision with ground(?)
 
         }
-
-        
 };
