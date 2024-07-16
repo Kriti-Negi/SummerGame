@@ -1,3 +1,5 @@
+#include <cmath>
+
 class Collision
 {
 public:
@@ -78,7 +80,7 @@ class CollisionRect: public Collision{
         }
 
         bool hasCollided(CollisionRound &c){
-
+            return false; // fix later
         }
 };
 
@@ -110,7 +112,7 @@ class CollisionRound: public Collision{
         }
 
         bool hasCollided(CollisionRect &c){
-            
+            return false; // fix later
         }
 
         bool hasCollided(CollisionRound &c){
@@ -118,6 +120,10 @@ class CollisionRound: public Collision{
             float maxY = getRadiusY() + c.getRadiusY();
             float distX = center[0] - c.getCenterX();
             float distY = center[1] - c.getCenterY();
+
+            //float odist = sqrt((distX * distX) + distY * distY);
+
+            //overall dist: oDist=sqrt((xdist/W)*(xdist/W)+ydist*ydist)
 
             // need to fix
 

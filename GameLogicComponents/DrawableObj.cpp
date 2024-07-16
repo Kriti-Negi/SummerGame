@@ -8,6 +8,7 @@ class DrawableObj{
         std::string sprite = ""; 
 
     public:
+        DrawableObj(){}
         DrawableObj(float posx, float posy, float posz){
             position[0] = posx;
             position[1] = posy;
