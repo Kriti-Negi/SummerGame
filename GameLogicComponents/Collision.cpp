@@ -3,12 +3,11 @@
 class Collision
 {
 public:
-    Collision(){}
-    virtual ~Collision(){}
-    virtual bool hasCollided(CollisionRect const &c) = 0;    
-    virtual void hasCollided(CollisionRound const &c) = 0; 
-    virtual float getCenterX() = 0;
-    virtual float getCenterY() = 0;
+
+    virtual bool hasCollided(CollisionRect const &c) const = 0;    
+    virtual bool hasCollided(CollisionRound const &c) const = 0; 
+    virtual float getCenterX() const = 0;
+    virtual float getCenterY() const = 0;
 };
 
 class CollisionRect: public Collision{
@@ -26,10 +25,10 @@ class CollisionRect: public Collision{
             width = w;
         }
 
-        float getCenterX() const {
+        float getCenterX() const override{
             return center[0];
         }
-        float getCenterY() const {
+        float getCenterY() const override{
             return center[1];
         }
         float getHeight(){
@@ -39,7 +38,7 @@ class CollisionRect: public Collision{
             return width;
         }
 
-        bool hasCollided(CollisionRect &c) const{
+        bool hasCollided(CollisionRect &c) const override{
 
             // width vars (to make life easier)
             float farLeft = center[0] - width/2.0f;
@@ -79,7 +78,7 @@ class CollisionRect: public Collision{
             return false;
         }
 
-        bool hasCollided(CollisionRound &c) const{
+        bool hasCollided(CollisionRound &c) const override{
             return false; // fix later
         }
 };
