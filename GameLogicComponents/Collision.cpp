@@ -4,8 +4,8 @@ class Collision
 {
 public:
 
-    virtual bool hasCollided(CollisionRect const &c) const = 0;    
-    virtual bool hasCollided(CollisionRound const &c) const = 0; 
+    virtual bool hasCollided(CollisionRect &c) const = 0;    
+    virtual bool hasCollided(CollisionRound &c) const = 0; 
     virtual float getCenterX() const = 0;
     virtual float getCenterY() const = 0;
 };
@@ -97,10 +97,10 @@ class CollisionRound: public Collision{
             radiusY = ry;
         }
 
-        float getCenterX() {
+        float getCenterX() const override{
             return center[0];
         }
-        float getCenterY() {
+        float getCenterY() const override{
             return center[1];
         }
         float getRadiusX(){
@@ -110,13 +110,13 @@ class CollisionRound: public Collision{
             return radiusY;
         }
 
-        bool hasCollided(CollisionRect &c){
+        bool hasCollided(CollisionRect &c) const override{
             return false; // fix later
         }
 
-        bool hasCollided(CollisionRound &c){
-            float maxX = getRadiusX() + c.getRadiusX();
-            float maxY = getRadiusY() + c.getRadiusY();
+        bool hasCollided(CollisionRound &c) const override{
+            float maxX = radiusX + c.getRadiusX();
+            float maxY = radiusY + c.getRadiusY();
             float distX = center[0] - c.getCenterX();
             float distY = center[1] - c.getCenterY();
 

@@ -7,13 +7,11 @@
 class Player : public DrawableObj  {
     private:
         bool isAlive = true;
-        CollisionRect* collider;
+        CollisionRect *collider;
         float HEIGHT = 10.0f;
         float WIDTH = 10.0f;
 
-        DrawableObj ground; // there has to be a better way
-
-        int facing = 0; // starts facing left; 1 is facing right
+        int facing = 0; // starts facing left (0); 1 is facing right
 
         float currPos[3] = {0.0f, 0.0f, 0.0f}; // change to start pos
         float currVel[2] = {0.0f, 0.0f}; // first is x, second is y
@@ -44,12 +42,12 @@ class Player : public DrawableObj  {
         }; // jump
 
     public:
-        Player(float posx, float posy, float posz, DrawableObj d) {
+        Player(float posx, float posy, float posz) {
             currPos[0] = posx;
             currPos[1] = posy;
             currPos[2] = posz;
 
-            ground = d; 
+            collider = new CollisionRect(posx, posy, WIDTH, HEIGHT);
 
             DrawableObj::setNewPos(posx, posy, posz);
             DrawableObj::setHeight(HEIGHT);
@@ -66,7 +64,6 @@ class Player : public DrawableObj  {
         void applyVelocity(float velX, float velY){
             currVel[0] = velX + currVel[0];
             currVel[1] = velY + currVel[1];
-            
         }
 
         void teleport(float pos[2]){
@@ -93,19 +90,27 @@ class Player : public DrawableObj  {
             if(action == 0){
                 //go left
                 applyVelocity(-1.0f, 0.0);
+                facing = 0;
             }else if(action == 1){
                 // go right
                 applyVelocity(1.0f, 0.0);
+                facing = 1;
             }else if(action == 2){
                 // jump
-                applyVelocity(0.0f, 6.0);
+                if(facing == 0){
+                    applyVelocity(-1.0f, 6.0);
+                }else{
+                    applyVelocity(-1.0f, 6.0);
+                }
                 applyAcceleration(0.0f, GRAVITY);
             }
         }
 
         void updateSprite(){
             DrawableObj::setNewPos2D(currPos[0], currPos[1]);
-            if(currVel[0] == 0.0){
+            if(facing == 0){
+                
+            }else {
 
             }
         }
