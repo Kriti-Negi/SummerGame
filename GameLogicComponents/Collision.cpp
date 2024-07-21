@@ -26,10 +26,10 @@ class CollisionRect: public Collision{
             width = w;
         }
 
-        float getCenterX() {
+        float getCenterX() const {
             return center[0];
         }
-        float getCenterY() {
+        float getCenterY() const {
             return center[1];
         }
         float getHeight(){
@@ -39,7 +39,7 @@ class CollisionRect: public Collision{
             return width;
         }
 
-        bool hasCollided(CollisionRect &c){
+        bool hasCollided(CollisionRect &c) const{
 
             // width vars (to make life easier)
             float farLeft = center[0] - width/2.0f;
@@ -63,7 +63,7 @@ class CollisionRect: public Collision{
                     ){
                         return true;
                     } 
-            }   
+            }
 
             // other rect smaller
             if( (farLeftOther > farLeft && farLeftOther < farRight) ||
@@ -79,7 +79,7 @@ class CollisionRect: public Collision{
             return false;
         }
 
-        bool hasCollided(CollisionRound &c){
+        bool hasCollided(CollisionRound &c) const{
             return false; // fix later
         }
 };
