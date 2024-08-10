@@ -1,6 +1,7 @@
 #include <string>
 
 #include "Collision.cpp"
+#include "CollisionRect.cpp"
 #include "DrawableObj.cpp"
 #include "WorldConstants.cpp"
 
